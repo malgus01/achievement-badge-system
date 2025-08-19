@@ -44,3 +44,5 @@ function mintBadge(
     bool soulbound
 ) external returns (uint256)
 function getUserBadges(address user) external view returns (uint256[] memory)
+function hasUserEarnedAchievement(address user, uint256 achievementId) external view returns (bool)
+```
