@@ -19,3 +19,9 @@ A comprehensive Solidity-based achievement system that allows users to earn NFT 
     │  Oracles)     │         │   Tracking       │         │   (IPFS)      │
     └───────────────┘         └──────────────────┘         └───────────────┘
 ```
+
+## Core Contracts
+
+### 1. AchievementBadge.sol
+
+The main NFT contract that handles badge minting and management.
