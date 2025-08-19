@@ -25,3 +25,10 @@ A comprehensive Solidity-based achievement system that allows users to earn NFT 
 ### 1. AchievementBadge.sol
 
 The main NFT contract that handles badge minting and management.
+
+**Key Features:**
+- ERC721-compliant with metadata extension
+- Soul-bound (non-transferable) badge support
+- Rarity system (Common, Rare, Epic, Legendary)
+- User badge tracking and enumeration
+- Prevention of duplicate achievement badges
