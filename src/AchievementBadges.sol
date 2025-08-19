@@ -33,5 +33,6 @@ contract AchievementBadges is ERC1155, AccessControl, ReentrancyGuard {
     }
 
     mapping(uint256 => BadgeInfo) public badges;
+    mapping(uint256 => mapping(address => bool)) public hasBadge;
 
 }
