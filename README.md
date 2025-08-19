@@ -43,3 +43,4 @@ function mintBadge(
     uint8 rarity,
     bool soulbound
 ) external returns (uint256)
+function getUserBadges(address user) external view returns (uint256[] memory)
