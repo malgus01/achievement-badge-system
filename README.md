@@ -1,66 +1,48 @@
-## Foundry
+# Achievement Badges System
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+A comprehensive Solidity-based achievement system that allows users to earn NFT badges through various on-chain activities. The system is designed to be modular, gas-efficient, and extensible for different types of blockchain interactions.
 
-Foundry consists of:
+## Architecture
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
+```
+┌─────────────────────┐    ┌──────────────────────┐    ┌─────────────────────┐
+│   Activity Trackers │───▶│  AchievementManager  │───▶│  AchievementBadge   │
+│  (DeFi, Governance) │    │   (Central Logic)    │    │    (NFT Contract)   │
+└─────────────────────┘    └──────────────────────┘    └─────────────────────┘
+            │                           │                           │
+            │                           │                           │
+            ▼                           ▼                           ▼
+    ┌───────────────┐         ┌──────────────────┐         ┌───────────────┐
+    │   Off-chain   │         │   Achievement    │         │   Badge       │
+    │   Services    │         │   Definitions    │         │   Metadata    │
+    │ (Indexers,    │         │   & Progress     │         │   & Images    │
+    │  Oracles)     │         │   Tracking       │         │   (IPFS)      │
+    └───────────────┘         └──────────────────┘         └───────────────┘
 ```
 
-### Test
+## Core Contracts
 
-```shell
-$ forge test
-```
+### 1. AchievementBadge.sol
 
-### Format
+The main NFT contract that handles badge minting and management.
 
-```shell
-$ forge fmt
-```
+**Key Features:**
+- ERC721-compliant with metadata extension
+- Soul-bound (non-transferable) badge support
+- Rarity system (Common, Rare, Epic, Legendary)
+- User badge tracking and enumeration
+- Prevention of duplicate achievement badges
 
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
+**Key Functions:**
+```solidity
+function mintBadge(
+    address to,
+    uint256 achievementId,
+    string memory name,
+    string memory description,
+    uint8 rarity,
+    bool soulbound
+) external returns (uint256)
+function getUserBadges(address user) external view returns (uint256[] memory)
+function hasUserEarnedAchievement(address user, uint256 achievementId) external view returns (bool)
 ```
