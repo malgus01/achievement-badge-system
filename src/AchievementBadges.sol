@@ -14,4 +14,8 @@ contract AchievementBadges is ERC1155, AccessControl, ReentrancyGuard {
     // Roles
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
+
+    // State variables
+    Counters.Counter private _badgeIdCounter;
+    
 }
