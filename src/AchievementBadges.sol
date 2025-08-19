@@ -19,4 +19,16 @@ contract AchievementBadges is ERC1155, AccessControl, ReentrancyGuard {
     Counters.Counter private _badgeIdCounter;
     string public name = "Achievement Badges";
     string public symbol = "BADGE";
+
+    // Badge metadata
+    struct BadgeInfo {
+        string name;
+        string description;
+        string imageUri;
+        uint8 rarity; // 1-5 scale
+        bool soulbound;
+        bool exists;
+        uint256 totalSupply;
+        uint256 maxSupply;
+    }
 }
