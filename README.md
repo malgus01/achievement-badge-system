@@ -32,3 +32,14 @@ The main NFT contract that handles badge minting and management.
 - Rarity system (Common, Rare, Epic, Legendary)
 - User badge tracking and enumeration
 - Prevention of duplicate achievement badges
+
+**Key Functions:**
+```solidity
+function mintBadge(
+    address to,
+    uint256 achievementId,
+    string memory name,
+    string memory description,
+    uint8 rarity,
+    bool soulbound
+) external returns (uint256)
