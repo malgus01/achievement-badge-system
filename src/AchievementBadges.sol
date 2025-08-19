@@ -7,4 +7,8 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract AchievementBadges is ERC1155, AccessControl, ReentrancyGuard {}
+contract AchievementBadges is ERC1155, AccessControl, ReentrancyGuard {
+    using Strings for uint256;
+    using Counters for Counters.Counter;
+
+}
