@@ -17,5 +17,5 @@ contract AchievementBadges is ERC1155, AccessControl, ReentrancyGuard {
 
     // State variables
     Counters.Counter private _badgeIdCounter;
-    
+    string public name = "Achievement Badges";
 }
