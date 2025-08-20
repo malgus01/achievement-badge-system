@@ -1,42 +1,45 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "@openzeppelin/contracts/access/AccessControl.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract AchievementBadges is ERC1155, AccessControl, ReentrancyGuard {
-    using Strings for uint256;
+contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
-    // Roles
-    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
-    bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
+    Counters.Counter private _tokenIdCounter;
 
-    // State variables
-    Counters.Counter private _badgeIdCounter;
-    string public name = "Achievement Badges";
-    string public symbol = "BADGE";
-
-    // Badge metadata
-    struct BadgeInfo {
+    // Badge metadata structure
+    struct BadgeMetadata {
         string name;
         string description;
-        string imageUri;
-        uint8 rarity; // 1-5 scale
+        uint256 achievementId;
+        uint256 earnedTimestamp;
+        uint8 rarity; // 1=Common, 2=Rare, 3=Epic, 4=Legendary
         bool soulbound;
-        bool exists;
-        uint256 totalSupply;
-        uint256 maxSupply;
     }
 
-    mapping(uint256 => BadgeInfo) public badges;
-    mapping(uint256 => mapping(address => bool)) public hasBadge;
+    // Mapping from token ID to badge metadata
+    mapping(uint256 => BadgeMetadata) public badgeMetadata;
+
+    // Mapping from user address to list of their badge token IDs
     mapping(address => uint256[]) public userBadges;
 
+    // Mapping from achievement ID to badge token URI
+    mapping(uint256 => string) public achievementTokenURIs;
+
+    // Mapping to track if user has earned specific achievement
+    mapping(address => mapping(uint256 => bool)) public hasEarnedAchievement;
+
+    // Address of the AchievementManager contract (only this can mint badges)
+    address public achievementManager;
+
     // Events
-    event BadgeCreated(uint256 indexed badgeId, string name, uint8 rarity, bool soulbound);
-    event BadgeMinted(address indexed to, uint256 indexed badgeId, uint256 amount);
+    event BadgeMinted(address indexed to, uint256 indexed tokenId, uint256 indexed achievementId);
+
+    event AchievementManagerUpdated(address indexed oldManager, address indexed newManager);
+
+    event TokenURIUpdated(uint256 indexed achievementId, string newURI);
 }
