@@ -36,6 +36,9 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
     // Address of the AchievementManager contract (only this can mint badges)
     address public achievementManager;
 
+    // Events
+    event BadgeMinted(address indexed to, uint256 indexed tokenId, uint256 indexed achievementId);
+    
     // Roles
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
