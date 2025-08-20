@@ -11,6 +11,16 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
 
     Counters.Counter private _tokenIdCounter;
 
+    // Badge metadata structure
+    struct BadgeMetadata {
+        string name;
+        string description;
+        uint256 achievementId;
+        uint256 earnedTimestamp;
+        uint8 rarity; // 1=Common, 2=Rare, 3=Epic, 4=Legendary
+        bool soulbound;
+    }
+
     // Roles
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
