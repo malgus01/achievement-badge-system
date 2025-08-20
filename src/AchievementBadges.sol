@@ -43,8 +43,6 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
 
     event TokenURIUpdated(uint256 indexed achievementId, string newURI);
 
-    // Roles
-    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
 
     // State variables
