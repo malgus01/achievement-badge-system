@@ -42,7 +42,4 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
     event AchievementManagerUpdated(address indexed oldManager, address indexed newManager);
 
     event TokenURIUpdated(uint256 indexed achievementId, string newURI);
-
-
-    event BadgeMinted(address indexed to, uint256 indexed badgeId, uint256 amount);
 }
