@@ -27,6 +27,9 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
     // Mapping from user address to list of their badge token IDs
     mapping(address => uint256[]) public userBadges;
 
+    // Mapping from achievement ID to badge token URI
+    mapping(uint256 => string) public achievementTokenURIs;
+
     // Roles
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
