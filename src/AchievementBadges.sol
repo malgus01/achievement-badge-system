@@ -9,6 +9,8 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
+    Counters.Counter private _tokenIdCounter;
+
     // Roles
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
