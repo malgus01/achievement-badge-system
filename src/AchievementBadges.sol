@@ -33,6 +33,9 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
     // Mapping to track if user has earned specific achievement
     mapping(address => mapping(uint256 => bool)) public hasEarnedAchievement;
 
+    // Address of the AchievementManager contract (only this can mint badges)
+    address public achievementManager;
+
     // Roles
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
