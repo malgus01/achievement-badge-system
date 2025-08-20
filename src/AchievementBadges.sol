@@ -21,6 +21,9 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
         bool soulbound;
     }
 
+    // Mapping from token ID to badge metadata
+    mapping(uint256 => BadgeMetadata) public badgeMetadata;
+
     // Roles
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
