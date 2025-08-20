@@ -43,18 +43,6 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
 
     event TokenURIUpdated(uint256 indexed achievementId, string newURI);
 
-    // Badge metadata
-    struct BadgeInfo {
-        string name;
-        string description;
-        string imageUri;
-        uint8 rarity; // 1-5 scale
-        bool soulbound;
-        bool exists;
-        uint256 totalSupply;
-        uint256 maxSupply;
-    }
-
     mapping(uint256 => BadgeInfo) public badges;
     mapping(uint256 => mapping(address => bool)) public hasBadge;
     mapping(address => uint256[]) public userBadges;
