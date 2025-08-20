@@ -7,7 +7,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
-    using Strings for uint256;
     using Counters for Counters.Counter;
 
     // Roles
