@@ -42,4 +42,9 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
     event AchievementManagerUpdated(address indexed oldManager, address indexed newManager);
 
     event TokenURIUpdated(uint256 indexed achievementId, string newURI);
+
+   modifier onlyAchievementManager() {
+        require(msg.sender == achievementManager, "AchievementBadge: caller is not the achievement manager");
+        _;
+    }
 }
