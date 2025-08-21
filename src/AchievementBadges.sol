@@ -42,4 +42,89 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
     event AchievementManagerUpdated(address indexed oldManager, address indexed newManager);
 
     event TokenURIUpdated(uint256 indexed achievementId, string newURI);
+
+   modifier onlyAchievementManager() {
+        require(msg.sender == achievementManager, "AchievementBadge: caller is not the achievement manager");
+        _;
+    }
+
+    constructor(
+        string memory name,
+        string memory symbol,
+        address initialOwner
+    ) ERC721(name, symbol) Ownable(initialOwner) {
+        // Start token IDs at 1
+        _tokenIdCounter.increment();
+    }
+
+    /**
+     * @dev Set the achievement manager contract address
+     * @param _achievementManager Address of the AchievementManager contract
+     */
+    function setAchievementManager(address _achievementManager) external onlyOwner {
+        address oldManager = achievementManager;
+        achievementManager = _achievementManager;
+        emit AchievementManagerUpdated(oldManager, _achievementManager);
+    }
+
+    /**
+     * @dev Set token URI for a specific achievement ID
+     * @param achievementId The achievement ID
+     * @param tokenURI The metadata URI
+     */
+    function setAchievementTokenURI(uint256 achievementId, string memory tokenURI) external onlyOwner {
+        achievementTokenURIs[achievementId] = tokenURI;
+        emit TokenURIUpdated(achievementId, tokenURI);
+    }
+
+    /**
+     * @dev Mint a badge to a user (only callable by AchievementManager)
+     * @param to Address to mint the badge to
+     * @param achievementId The achievement ID this badge represents
+     * @param name Name of the badge
+     * @param description Description of the badge
+     * @param rarity Rarity level (1-4)
+     * @param soulbound Whether the badge is soul-bound (non-transferable)
+     */
+    function mintBadge(
+        address to,
+        uint256 achievementId,
+        string memory name,
+        string memory description,
+        uint8 rarity,
+        bool soulbound
+    ) external onlyAchievementManager returns (uint256) {
+        require(to != address(0), "AchievementBadge: mint to zero address");
+        require(!hasEarnedAchievement[to][achievementId], "AchievementBadge: achievement already earned");
+        require(rarity >= 1 && rarity <= 4, "AchievementBadge: invalid rarity");
+
+        uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter.increment();
+
+        // Mint the token
+        _safeMint(to, tokenId);
+
+        // Set token URI if available
+        string memory tokenURI = achievementTokenURIs[achievementId];
+        if (bytes(tokenURI).length > 0) {
+            _setTokenURI(tokenId, tokenURI);
+        }
+
+        // Store badge metadata
+        badgeMetadata[tokenId] = BadgeMetadata({
+            name: name,
+            description: description,
+            achievementId: achievementId,
+            earnedTimestamp: block.timestamp,
+            rarity: rarity,
+            soulbound: soulbound
+        });
+
+        // Update user's badge list
+        userBadges[to].push(tokenId);
+        hasEarnedAchievement[to][achievementId] = true;
+
+        emit BadgeMinted(to, tokenId, achievementId);
+        return tokenId;
+    }
 }
