@@ -56,4 +56,10 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
         // Start token IDs at 1
         _tokenIdCounter.increment();
     }
+
+    function setAchievementManager(address _achievementManager) external onlyOwner {
+        address oldManager = achievementManager;
+        achievementManager = _achievementManager;
+        emit AchievementManagerUpdated(oldManager, _achievementManager);
+    }
 }
