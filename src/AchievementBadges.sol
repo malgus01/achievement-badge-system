@@ -77,7 +77,16 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
         emit TokenURIUpdated(achievementId, tokenURI);
     }
 
-function mintBadge(
+    /**
+     * @dev Mint a badge to a user (only callable by AchievementManager)
+     * @param to Address to mint the badge to
+     * @param achievementId The achievement ID this badge represents
+     * @param name Name of the badge
+     * @param description Description of the badge
+     * @param rarity Rarity level (1-4)
+     * @param soulbound Whether the badge is soul-bound (non-transferable)
+     */
+    function mintBadge(
         address to,
         uint256 achievementId,
         string memory name,
