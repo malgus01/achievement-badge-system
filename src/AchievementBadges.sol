@@ -66,4 +66,9 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
         achievementManager = _achievementManager;
         emit AchievementManagerUpdated(oldManager, _achievementManager);
     }
+
+    function setAchievementTokenURI(uint256 achievementId, string memory tokenURI) external onlyOwner {
+        achievementTokenURIs[achievementId] = tokenURI;
+        emit TokenURIUpdated(achievementId, tokenURI);
+    }
 }
