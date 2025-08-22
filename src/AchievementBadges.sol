@@ -136,4 +136,8 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
     function getUserBadges(address user) external view returns (uint256[] memory) {
         return userBadges[user];
     }
+
+    function getUserBadgeCount(address user) external view returns (uint256) {
+        return userBadges[user].length;
+    }
 }
