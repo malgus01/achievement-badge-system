@@ -127,4 +127,8 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
         emit BadgeMinted(to, tokenId, achievementId);
         return tokenId;
     }
+
+    function getUserBadges(address user) external view returns (uint256[] memory) {
+        return userBadges[user];
+    }
 }
