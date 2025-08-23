@@ -177,6 +177,11 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
         userBadges[to].push(tokenId);
     }
 
+    /**
+     * @dev Remove token ID from user's badge array
+     * @param user User address
+     * @param tokenId Token ID to remove
+     */
     function _removeFromUserBadges(address user, uint256 tokenId) private {
         uint256[] storage badges = userBadges[user];
         for (uint256 i = 0; i < badges.length; i++) {
