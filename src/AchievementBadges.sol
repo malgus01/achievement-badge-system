@@ -146,6 +146,12 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
         return userBadges[user].length;
     }
 
+    /**
+     * @dev Check if user has earned a specific achievement
+     * @param user User address
+     * @param achievementId Achievement ID
+     * @return True if user has earned the achievement
+     */
     function hasUserEarnedAchievement(address user, uint256 achievementId) external view returns (bool) {
         return hasEarnedAchievement[user][achievementId];
     }
