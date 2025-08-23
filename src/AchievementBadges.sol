@@ -145,4 +145,51 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
     function getUserBadgeCount(address user) external view returns (uint256) {
         return userBadges[user].length;
     }
+
+    /**
+     * @dev Check if user has earned a specific achievement
+     * @param user User address
+     * @param achievementId Achievement ID
+     * @return True if user has earned the achievement
+     */
+    function hasUserEarnedAchievement(address user, uint256 achievementId) external view returns (bool) {
+        return hasEarnedAchievement[user][achievementId];
+    }
+
+    /**
+     * @dev Override transfer functions to respect soul-bound badges
+     */
+    function transferFrom(address from, address to, uint256 tokenId) public override {
+        require(!badgeMetadata[tokenId].soulbound, "AchievementBadge: token is soul-bound");
+        super.transferFrom(from, to, tokenId);
+        
+        // Update user badge arrays
+        _removeFromUserBadges(from, tokenId);
+        userBadges[to].push(tokenId);
+    }
+
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data) public override {
+        require(!badgeMetadata[tokenId].soulbound, "AchievementBadge: token is soul-bound");
+        super.safeTransferFrom(from, to, tokenId, data);
+        
+        // Update user badge arrays
+        _removeFromUserBadges(from, tokenId);
+        userBadges[to].push(tokenId);
+    }
+
+    /**
+     * @dev Remove token ID from user's badge array
+     * @param user User address
+     * @param tokenId Token ID to remove
+     */
+    function _removeFromUserBadges(address user, uint256 tokenId) private {
+        uint256[] storage badges = userBadges[user];
+        for (uint256 i = 0; i < badges.length; i++) {
+            if (badges[i] == tokenId) {
+                badges[i] = badges[badges.length - 1];
+                badges.pop();
+                break;
+            }
+        }
+    }
 }
