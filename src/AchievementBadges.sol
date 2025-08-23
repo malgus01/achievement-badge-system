@@ -167,4 +167,13 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
         _removeFromUserBadges(from, tokenId);
         userBadges[to].push(tokenId);
     }
+
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data) public override {
+        require(!badgeMetadata[tokenId].soulbound, "AchievementBadge: token is soul-bound");
+        super.safeTransferFrom(from, to, tokenId, data);
+        
+        // Update user badge arrays
+        _removeFromUserBadges(from, tokenId);
+        userBadges[to].push(tokenId);
+    }
 }
