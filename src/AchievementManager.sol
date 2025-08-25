@@ -12,4 +12,7 @@ import "./IActivityTracker.sol";
  * @dev Central manager for all achievements and badge minting
  * @author MLGHECTIIK
  */
-contract AchievementManager is Ownable, ReentrancyGuard {}
+contract AchievementManager is Ownable, ReentrancyGuard {
+    using Counters for Counters.Counter;
+
+}
