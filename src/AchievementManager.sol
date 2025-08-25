@@ -18,5 +18,12 @@ contract AchievementManager is Ownable, ReentrancyGuard {
     Counters.Counter private _achievementIdCounter;
 
     // Achievement types
+    enum AchievementType {
+        ACTIVITY_COUNT,     // Complete X activities
+        VALUE_THRESHOLD,    // Reach X value in activities
+        STREAK,            // Complete activities X days in a row
+        COMBO,             // Complete multiple different activities
+        TIME_BASED         // Complete activity within timeframe
+    }
 
 }
