@@ -12,4 +12,4 @@ import "./IActivityTracker.sol";
  * @dev Central manager for all achievements and badge minting
  * @author MLGHECTIIK
  */
-contract AchievementManager {}
+contract AchievementManager is Ownable, ReentrancyGuard {}
