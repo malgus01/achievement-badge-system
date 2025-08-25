@@ -26,4 +26,7 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         TIME_BASED         // Complete activity within timeframe
     }
 
+    // Achievement structure
+
+
 }
