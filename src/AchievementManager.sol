@@ -15,4 +15,7 @@ import "./IActivityTracker.sol";
 contract AchievementManager is Ownable, ReentrancyGuard {
     using Counters for Counters.Counter;
 
+    Counters.Counter private _achievementIdCounter;
+
+
 }
