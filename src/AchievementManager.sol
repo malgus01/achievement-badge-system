@@ -27,6 +27,19 @@ contract AchievementManager is Ownable, ReentrancyGuard {
     }
 
     // Achievement structure
-
+    struct Achievement {
+        uint256 id;
+        string name;
+        string description;
+        AchievementType achievementType;
+        address[] requiredTrackers;     // Activity tracker contracts to check
+        uint256[] thresholds;          // Required values for completion
+        uint256 timeLimit;             // Time limit in seconds (0 = no limit)
+        uint8 rarity;                  // 1=Common, 2=Rare, 3=Epic, 4=Legendary
+        bool isActive;                 // Whether achievement can be earned
+        bool soulbound;                // Whether resulting badge is soul-bound
+        uint256 maxEarners;            // Max users who can earn (0 = unlimited)
+        uint256 currentEarners;        // Current number of users who earned it
+    }
 
 }
