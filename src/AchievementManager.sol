@@ -17,5 +17,6 @@ contract AchievementManager is Ownable, ReentrancyGuard {
 
     Counters.Counter private _achievementIdCounter;
 
+    // Achievement types
 
 }
