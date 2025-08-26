@@ -45,6 +45,9 @@ contract AchievementManager is Ownable, ReentrancyGuard {
     // Reference to the badge contract
     AchievementBadge public badgeContract;
 
+    mapping(address => mapping(uint256 => uint256)) public userProgress;
+
+
     // Mapping from achievement ID to achievement data
     mapping(uint256 => Achievement) public achievements;
 
