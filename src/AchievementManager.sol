@@ -42,4 +42,6 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         uint256 currentEarners;        // Current number of users who earned it
     }
 
+    AchievementBadge public badgeContract;
+
 }
