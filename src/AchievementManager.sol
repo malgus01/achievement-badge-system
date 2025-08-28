@@ -54,6 +54,8 @@ contract AchievementManager is Ownable, ReentrancyGuard {
     // Mapping from user to achievement ID to completion timestamp
     mapping(address => mapping(uint256 => uint256)) public userCompletionTime;
 
+    mapping(address => bool) public authorizedTrackers;
+
     // Array of all achievement IDs
     uint256[] public allAchievementIds;
 
