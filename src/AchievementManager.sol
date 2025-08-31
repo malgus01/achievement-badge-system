@@ -61,5 +61,6 @@ contract AchievementManager is Ownable, ReentrancyGuard {
     uint256[] public allAchievementIds;
 
     event AchievementCreated(uint256 indexed achievementId, string name, AchievementType achievementType);
+    event AchievementUpdated(uint256 indexed achievementId);
 
 }
