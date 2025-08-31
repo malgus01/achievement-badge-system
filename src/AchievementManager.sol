@@ -72,4 +72,9 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         require(authorizedTrackers[msg.sender], "AchievementManager: caller is not authorized tracker");
         _;
     }
+
+    constructor(address initialOwner) Ownable(initialOwner) {
+        // Start achievement IDs at 1
+        _achievementIdCounter.increment();
+    }
 }
