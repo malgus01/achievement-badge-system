@@ -98,6 +98,18 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         emit TrackerAuthorized(tracker, authorized);
     }
 
+    /**
+     * @dev Create a new achievement
+     * @param name Name of the achievement
+     * @param description Description of the achievement
+     * @param achievementType Type of achievement
+     * @param requiredTrackers Array of tracker addresses to check
+     * @param thresholds Array of threshold values required
+     * @param timeLimit Time limit in seconds (0 for no limit)
+     * @param rarity Rarity level (1-4)
+     * @param soulbound Whether the badge should be soul-bound
+     * @param maxEarners Maximum number of users who can earn (0 for unlimited)
+     */
     function createAchievement(
         string memory name,
         string memory description,
