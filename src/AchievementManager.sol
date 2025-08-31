@@ -88,6 +88,11 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         emit BadgeContractUpdated(oldContract, _badgeContract);
     }
 
+    /**
+     * @dev Authorize or deauthorize an activity tracker
+     * @param tracker Address of the activity tracker
+     * @param authorized Whether to authorize or deauthorize
+     */
     function setTrackerAuthorization(address tracker, bool authorized) external onlyOwner {
         authorizedTrackers[tracker] = authorized;
         emit TrackerAuthorized(tracker, authorized);
