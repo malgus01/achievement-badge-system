@@ -60,6 +60,7 @@ contract AchievementManager is Ownable, ReentrancyGuard {
     // Array of all achievement IDs
     uint256[] public allAchievementIds;
 
+    // Events
     event AchievementCreated(uint256 indexed achievementId, string name, AchievementType achievementType);
     event AchievementUpdated(uint256 indexed achievementId);
     event ProgressUpdated(address indexed user, uint256 indexed achievementId, uint256 progress);
