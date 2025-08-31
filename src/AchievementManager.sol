@@ -77,4 +77,10 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         // Start achievement IDs at 1
         _achievementIdCounter.increment();
     }
+
+    function setBadgeContract(address _badgeContract) external onlyOwner {
+        address oldContract = address(badgeContract);
+        badgeContract = AchievementBadge(_badgeContract);
+        emit BadgeContractUpdated(oldContract, _badgeContract);
+    }
 }
