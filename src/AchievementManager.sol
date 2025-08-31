@@ -65,5 +65,6 @@ contract AchievementManager is Ownable, ReentrancyGuard {
     event ProgressUpdated(address indexed user, uint256 indexed achievementId, uint256 progress);
     event AchievementCompleted(address indexed user, uint256 indexed achievementId, uint256 badgeTokenId);
     event TrackerAuthorized(address indexed tracker, bool authorized);
+    event BadgeContractUpdated(address indexed oldContract, address indexed newContract);
 
 }
