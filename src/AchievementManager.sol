@@ -60,4 +60,97 @@ contract AchievementManager is Ownable, ReentrancyGuard {
     // Array of all achievement IDs
     uint256[] public allAchievementIds;
 
+    // Events
+    event AchievementCreated(uint256 indexed achievementId, string name, AchievementType achievementType);
+    event AchievementUpdated(uint256 indexed achievementId);
+    event ProgressUpdated(address indexed user, uint256 indexed achievementId, uint256 progress);
+    event AchievementCompleted(address indexed user, uint256 indexed achievementId, uint256 badgeTokenId);
+    event TrackerAuthorized(address indexed tracker, bool authorized);
+    event BadgeContractUpdated(address indexed oldContract, address indexed newContract);
+
+    modifier onlyAuthorizedTracker() {
+        require(authorizedTrackers[msg.sender], "AchievementManager: caller is not authorized tracker");
+        _;
+    }
+
+    constructor(address initialOwner) Ownable(initialOwner) {
+        // Start achievement IDs at 1
+        _achievementIdCounter.increment();
+    }
+
+    /**
+     * @dev Set the badge contract address
+     * @param _badgeContract Address of the AchievementBadge contract
+     */
+    function setBadgeContract(address _badgeContract) external onlyOwner {
+        address oldContract = address(badgeContract);
+        badgeContract = AchievementBadge(_badgeContract);
+        emit BadgeContractUpdated(oldContract, _badgeContract);
+    }
+
+    /**
+     * @dev Authorize or deauthorize an activity tracker
+     * @param tracker Address of the activity tracker
+     * @param authorized Whether to authorize or deauthorize
+     */
+    function setTrackerAuthorization(address tracker, bool authorized) external onlyOwner {
+        authorizedTrackers[tracker] = authorized;
+        emit TrackerAuthorized(tracker, authorized);
+    }
+
+    /**
+     * @dev Create a new achievement
+     * @param name Name of the achievement
+     * @param description Description of the achievement
+     * @param achievementType Type of achievement
+     * @param requiredTrackers Array of tracker addresses to check
+     * @param thresholds Array of threshold values required
+     * @param timeLimit Time limit in seconds (0 for no limit)
+     * @param rarity Rarity level (1-4)
+     * @param soulbound Whether the badge should be soul-bound
+     * @param maxEarners Maximum number of users who can earn (0 for unlimited)
+     */
+    function createAchievement(
+        string memory name,
+        string memory description,
+        AchievementType achievementType,
+        address[] memory requiredTrackers,
+        uint256[] memory thresholds,
+        uint256 timeLimit,
+        uint8 rarity,
+        bool soulbound,
+        uint256 maxEarners
+    ) external onlyOwner returns (uint256) {
+        require(bytes(name).length > 0, "AchievementManager: name cannot be empty");
+        require(rarity >= 1 && rarity <= 4, "AchievementManager: invalid rarity");
+        require(requiredTrackers.length > 0, "AchievementManager: must have at least one tracker");
+        
+        // Validate all trackers are authorized
+        for (uint256 i = 0; i < requiredTrackers.length; i++) {
+            require(authorizedTrackers[requiredTrackers[i]], "AchievementManager: tracker not authorized");
+        }
+
+        uint256 achievementId = _achievementIdCounter.current();
+        _achievementIdCounter.increment();
+
+        achievements[achievementId] = Achievement({
+            id: achievementId,
+            name: name,
+            description: description,
+            achievementType: achievementType,
+            requiredTrackers: requiredTrackers,
+            thresholds: thresholds,
+            timeLimit: timeLimit,
+            rarity: rarity,
+            isActive: true,
+            soulbound: soulbound,
+            maxEarners: maxEarners,
+            currentEarners: 0
+        });
+
+        allAchievementIds.push(achievementId);
+
+        emit AchievementCreated(achievementId, name, achievementType);
+        return achievementId;
+    }
 }
