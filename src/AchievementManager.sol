@@ -187,6 +187,11 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         }
     }
 
+    /**
+     * @dev Batch check multiple achievements for a user
+     * @param user User address
+     * @param achievementIds Array of achievement IDs to check
+     */
     function batchCheckAchievements(address user, uint256[] calldata achievementIds) external nonReentrant {
         for (uint256 i = 0; i < achievementIds.length; i++) {
             uint256 achievementId = achievementIds[i];
