@@ -173,6 +173,11 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         }
     }
 
+    /**
+     * @dev Manually check and complete achievement for a user (gas-optimized batch operation)
+     * @param user User address
+     * @param achievementId Achievement ID
+     */
     function checkAndCompleteAchievement(address user, uint256 achievementId) external nonReentrant {
         require(achievements[achievementId].isActive, "AchievementManager: achievement not active");
         require(!badgeContract.hasUserEarnedAchievement(user, achievementId), "AchievementManager: already earned");
