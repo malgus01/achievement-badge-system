@@ -186,4 +186,17 @@ contract AchievementManager is Ownable, ReentrancyGuard {
             _completeAchievement(user, achievementId);
         }
     }
+
+    function batchCheckAchievements(address user, uint256[] calldata achievementIds) external nonReentrant {
+        for (uint256 i = 0; i < achievementIds.length; i++) {
+            uint256 achievementId = achievementIds[i];
+            
+            if (!achievements[achievementId].isActive) continue;
+            if (badgeContract.hasUserEarnedAchievement(user, achievementId)) continue;
+
+            if (_checkAchievementCompletion(user, achievementId)) {
+                _completeAchievement(user, achievementId);
+            }
+        }
+    }
 }
