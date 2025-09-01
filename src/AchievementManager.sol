@@ -153,4 +153,55 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         emit AchievementCreated(achievementId, name, achievementType);
         return achievementId;
     }
+
+    /**
+     * @dev Update user progress for an achievement (called by activity trackers)
+     * @param user User address
+     * @param achievementId Achievement ID
+     * @param progress New progress value
+     */
+    function updateProgress(address user, uint256 achievementId, uint256 progress) external onlyAuthorizedTracker {
+        require(achievements[achievementId].isActive, "AchievementManager: achievement not active");
+        require(!badgeContract.hasUserEarnedAchievement(user, achievementId), "AchievementManager: already earned");
+
+        userProgress[user][achievementId] = progress;
+        emit ProgressUpdated(user, achievementId, progress);
+
+        // Check if achievement is completed
+        if (_checkAchievementCompletion(user, achievementId)) {
+            _completeAchievement(user, achievementId);
+        }
+    }
+
+    /**
+     * @dev Manually check and complete achievement for a user (gas-optimized batch operation)
+     * @param user User address
+     * @param achievementId Achievement ID
+     */
+    function checkAndCompleteAchievement(address user, uint256 achievementId) external nonReentrant {
+        require(achievements[achievementId].isActive, "AchievementManager: achievement not active");
+        require(!badgeContract.hasUserEarnedAchievement(user, achievementId), "AchievementManager: already earned");
+
+        if (_checkAchievementCompletion(user, achievementId)) {
+            _completeAchievement(user, achievementId);
+        }
+    }
+
+    /**
+     * @dev Batch check multiple achievements for a user
+     * @param user User address
+     * @param achievementIds Array of achievement IDs to check
+     */
+    function batchCheckAchievements(address user, uint256[] calldata achievementIds) external nonReentrant {
+        for (uint256 i = 0; i < achievementIds.length; i++) {
+            uint256 achievementId = achievementIds[i];
+            
+            if (!achievements[achievementId].isActive) continue;
+            if (badgeContract.hasUserEarnedAchievement(user, achievementId)) continue;
+
+            if (_checkAchievementCompletion(user, achievementId)) {
+                _completeAchievement(user, achievementId);
+            }
+        }
+    }
 }
