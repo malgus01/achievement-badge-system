@@ -154,6 +154,12 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         return achievementId;
     }
 
+    /**
+     * @dev Update user progress for an achievement (called by activity trackers)
+     * @param user User address
+     * @param achievementId Achievement ID
+     * @param progress New progress value
+     */
     function updateProgress(address user, uint256 achievementId, uint256 progress) external onlyAuthorizedTracker {
         require(achievements[achievementId].isActive, "AchievementManager: achievement not active");
         require(!badgeContract.hasUserEarnedAchievement(user, achievementId), "AchievementManager: already earned");
