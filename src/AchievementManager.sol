@@ -205,6 +205,12 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         }
     }
 
+    /**
+     * @dev Check if user has completed an achievement
+     * @param user User address
+     * @param achievementId Achievement ID
+     * @return True if achievement is completed
+     */
     function _checkAchievementCompletion(address user, uint256 achievementId) private view returns (bool) {
         Achievement memory achievement = achievements[achievementId];
         
