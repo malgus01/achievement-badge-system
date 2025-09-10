@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./AchievementBadge.sol";
 import "./IActivityTracker.sol";
@@ -19,11 +19,12 @@ contract AchievementManager is Ownable, ReentrancyGuard {
 
     // Achievement types
     enum AchievementType {
-        ACTIVITY_COUNT,     // Complete X activities
-        VALUE_THRESHOLD,    // Reach X value in activities
-        STREAK,            // Complete activities X days in a row
-        COMBO,             // Complete multiple different activities
-        TIME_BASED         // Complete activity within timeframe
+        ACTIVITY_COUNT, // Complete X activities
+        VALUE_THRESHOLD, // Reach X value in activities
+        STREAK, // Complete activities X days in a row
+        COMBO, // Complete multiple different activities
+        TIME_BASED // Complete activity within timeframe
+
     }
 
     // Achievement structure
@@ -32,14 +33,14 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         string name;
         string description;
         AchievementType achievementType;
-        address[] requiredTrackers;     // Activity tracker contracts to check
-        uint256[] thresholds;          // Required values for completion
-        uint256 timeLimit;             // Time limit in seconds (0 = no limit)
-        uint8 rarity;                  // 1=Common, 2=Rare, 3=Epic, 4=Legendary
-        bool isActive;                 // Whether achievement can be earned
-        bool soulbound;                // Whether resulting badge is soul-bound
-        uint256 maxEarners;            // Max users who can earn (0 = unlimited)
-        uint256 currentEarners;        // Current number of users who earned it
+        address[] requiredTrackers; // Activity tracker contracts to check
+        uint256[] thresholds; // Required values for completion
+        uint256 timeLimit; // Time limit in seconds (0 = no limit)
+        uint8 rarity; // 1=Common, 2=Rare, 3=Epic, 4=Legendary
+        bool isActive; // Whether achievement can be earned
+        bool soulbound; // Whether resulting badge is soul-bound
+        uint256 maxEarners; // Max users who can earn (0 = unlimited)
+        uint256 currentEarners; // Current number of users who earned it
     }
 
     // Reference to the badge contract
@@ -124,7 +125,7 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         require(bytes(name).length > 0, "AchievementManager: name cannot be empty");
         require(rarity >= 1 && rarity <= 4, "AchievementManager: invalid rarity");
         require(requiredTrackers.length > 0, "AchievementManager: must have at least one tracker");
-        
+
         // Validate all trackers are authorized
         for (uint256 i = 0; i < requiredTrackers.length; i++) {
             require(authorizedTrackers[requiredTrackers[i]], "AchievementManager: tracker not authorized");
@@ -195,7 +196,7 @@ contract AchievementManager is Ownable, ReentrancyGuard {
     function batchCheckAchievements(address user, uint256[] calldata achievementIds) external nonReentrant {
         for (uint256 i = 0; i < achievementIds.length; i++) {
             uint256 achievementId = achievementIds[i];
-            
+
             if (!achievements[achievementId].isActive) continue;
             if (badgeContract.hasUserEarnedAchievement(user, achievementId)) continue;
 
@@ -213,7 +214,7 @@ contract AchievementManager is Ownable, ReentrancyGuard {
      */
     function _checkAchievementCompletion(address user, uint256 achievementId) private view returns (bool) {
         Achievement memory achievement = achievements[achievementId];
-        
+
         // Check if max earners limit reached
         if (achievement.maxEarners > 0 && achievement.currentEarners >= achievement.maxEarners) {
             return false;
@@ -229,10 +230,11 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         }
 
         // Check progress against thresholds based on achievement type
-        if (achievement.achievementType == AchievementType.ACTIVITY_COUNT ||
-            achievement.achievementType == AchievementType.VALUE_THRESHOLD ||
-            achievement.achievementType == AchievementType.STREAK) {
-            
+        if (
+            achievement.achievementType == AchievementType.ACTIVITY_COUNT
+                || achievement.achievementType == AchievementType.VALUE_THRESHOLD
+                || achievement.achievementType == AchievementType.STREAK
+        ) {
             // For these types, check if progress meets the first threshold
             if (achievement.thresholds.length > 0) {
                 return userProgress[user][achievementId] >= achievement.thresholds[0];
@@ -241,7 +243,7 @@ contract AchievementManager is Ownable, ReentrancyGuard {
 
         // For COMBO and TIME_BASED, implement custom logic
         // This can be extended based on specific requirements
-        
+
         return false;
     }
 }
