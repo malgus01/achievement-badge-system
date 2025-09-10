@@ -3,8 +3,7 @@ pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "./AchievementBadge.sol";
+import "./AchievementBadges.sol";
 import "./IActivityTracker.sol";
 
 /**
@@ -13,9 +12,7 @@ import "./IActivityTracker.sol";
  * @author MLGHECTIIK
  */
 contract AchievementManager is Ownable, ReentrancyGuard {
-    using Counters for Counters.Counter;
-
-    Counters.Counter private _achievementIdCounter;
+    uint256 private _achievementIdCounter;
 
     // Achievement types
     enum AchievementType {
@@ -76,7 +73,7 @@ contract AchievementManager is Ownable, ReentrancyGuard {
 
     constructor(address initialOwner) Ownable(initialOwner) {
         // Start achievement IDs at 1
-        _achievementIdCounter.increment();
+        _achievementIdCounter = 1;
     }
 
     /**
@@ -245,5 +242,20 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         // This can be extended based on specific requirements
 
         return false;
+    }
+
+    function _completeAchievement(address user, uint256 achievementId) private {
+        Achievement storage achievement = achievements[achievementId];
+
+        // Mint badge
+        uint256 tokenId = badgeContract.mintBadge(
+            user, achievementId, achievement.name, achievement.description, achievement.rarity, achievement.soulbound
+        );
+
+        // Update completion tracking
+        userCompletionTime[user][achievementId] = block.timestamp;
+        achievement.currentEarners++;
+
+        emit AchievementCompleted(user, achievementId, tokenId);
     }
 }
