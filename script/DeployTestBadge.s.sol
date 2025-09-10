@@ -15,7 +15,7 @@ contract DeployTestBadge is Script {
         // Deploy contract
         TestAchievementBadge badge = new TestAchievementBadge(
             "Test Achievement Badges", // Token name
-            "TESTBADGE"                // Token symbol
+            "TESTBADGE" // Token symbol
         );
 
         vm.stopBroadcast();
