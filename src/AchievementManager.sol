@@ -128,8 +128,8 @@ contract AchievementManager is Ownable, ReentrancyGuard {
             require(authorizedTrackers[requiredTrackers[i]], "AchievementManager: tracker not authorized");
         }
 
-        uint256 achievementId = _achievementIdCounter.current();
-        _achievementIdCounter.increment();
+        _achievementIdCounter++;
+        uint256 achievementId = _achievementIdCounter;
 
         achievements[achievementId] = Achievement({
             id: achievementId,
