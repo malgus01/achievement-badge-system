@@ -1,15 +1,12 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
-    using Counters for Counters.Counter;
-
-    Counters.Counter private _tokenIdCounter;
+    uint256 private _tokenIds;
 
     // Badge metadata structure
     struct BadgeMetadata {
@@ -43,18 +40,17 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
 
     event TokenURIUpdated(uint256 indexed achievementId, string newURI);
 
-   modifier onlyAchievementManager() {
+    modifier onlyAchievementManager() {
         require(msg.sender == achievementManager, "AchievementBadge: caller is not the achievement manager");
         _;
     }
 
-    constructor(
-        string memory name,
-        string memory symbol,
-        address initialOwner
-    ) ERC721(name, symbol) Ownable(initialOwner) {
+    constructor(string memory name, string memory symbol, address initialOwner)
+        ERC721(name, symbol)
+        Ownable(initialOwner)
+    {
         // Start token IDs at 1
-        _tokenIdCounter.increment();
+        _tokenIds = 1;
     }
 
     /**
@@ -98,8 +94,8 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
         require(!hasEarnedAchievement[to][achievementId], "AchievementBadge: achievement already earned");
         require(rarity >= 1 && rarity <= 4, "AchievementBadge: invalid rarity");
 
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
+        _tokenIds++;
+        uint256 tokenId = _tokenIds;
 
         // Mint the token
         _safeMint(to, tokenId);
@@ -159,20 +155,21 @@ contract AchievementBadge is ERC721, ERC721URIStorage, Ownable {
     /**
      * @dev Override transfer functions to respect soul-bound badges
      */
-    function transferFrom(address from, address to, uint256 tokenId) public override {
+    function transferFrom(address from, address to, uint256 tokenId) public override(ERC721, IERC721) {
         require(!badgeMetadata[tokenId].soulbound, "AchievementBadge: token is soul-bound");
         super.transferFrom(from, to, tokenId);
-        
-        // Update user badge arrays
+
         _removeFromUserBadges(from, tokenId);
         userBadges[to].push(tokenId);
     }
 
-    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data) public override {
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data)
+        public
+        override(ERC721, IERC721)
+    {
         require(!badgeMetadata[tokenId].soulbound, "AchievementBadge: token is soul-bound");
         super.safeTransferFrom(from, to, tokenId, data);
-        
-        // Update user badge arrays
+
         _removeFromUserBadges(from, tokenId);
         userBadges[to].push(tokenId);
     }
