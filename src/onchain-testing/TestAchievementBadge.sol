@@ -14,7 +14,7 @@ contract TestAchievementBadge is ERC721, ERC721URIStorage {
         string description;
         uint256 achievementId;
         uint256 earnedTimestamp;
-        uint8 rarity; // 1=Common, 2=Rare, 3=Epic, 4=Legendary
+        uint8 rarity; // 1=Common, 2=Rare, 3=Epic, 4=Legendary, 5=Mythic
         bool soulbound;
     }
 
@@ -40,7 +40,7 @@ contract TestAchievementBadge is ERC721, ERC721URIStorage {
     ) external returns (uint256) {
         require(to != address(0), "mint to zero address");
         require(!hasEarnedAchievement[to][achievementId], "achievement already earned");
-        require(rarity >= 1 && rarity <= 4, "invalid rarity");
+        require(rarity >= 1 && rarity <= 5, "invalid rarity");
 
         _tokenIds++;
         uint256 tokenId = _tokenIds;
