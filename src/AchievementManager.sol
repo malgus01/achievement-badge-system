@@ -264,7 +264,11 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         emit AchievementCompleted(user, achievementId, tokenId);
     }
 
-        function getAllAchievementIds() external view returns (uint256[] memory) {
+    /**
+     * @dev Get all achievement IDs
+     * @return Array of all achievement IDs
+     */
+    function getAllAchievementIds() external view returns (uint256[] memory) {
         return allAchievementIds;
     }
 }
