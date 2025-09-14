@@ -38,8 +38,6 @@ contract TestAchievementBadge is ERC721, ERC721URIStorage {
         bool soulbound,
         string memory tokenURI_
     ) external returns (uint256) {
-        require(to != address(0), "mint to zero address");
-        require(!hasEarnedAchievement[to][achievementId], "achievement already earned");
         require(rarity >= 1 && rarity <= 5, "invalid rarity");
 
         _tokenIds++;
