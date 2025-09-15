@@ -60,6 +60,15 @@ interface IActivityTracker {
      */
     function isUserActiveWithin(address user, bytes32 activityType, uint256 timeWindow) external view returns (bool);
 
+    /**
+     * @dev Get comprehensive user statistics
+     * @param user User address
+     * @param activityType Type of activity
+     * @return count Total activity count
+     * @return value Total activity value
+     * @return streak Current streak
+     * @return lastTimestamp Last activity timestamp
+     */
     function getUserStats(address user, bytes32 activityType) 
         external 
         view 
