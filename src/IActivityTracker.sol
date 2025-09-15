@@ -43,4 +43,6 @@ interface IActivityTracker {
      */
     function getUserStreak(address user, bytes32 activityType) external view returns (uint256);
 
+    function getLastActivityTimestamp(address user, bytes32 activityType) external view returns (uint256);
+
 }
