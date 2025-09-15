@@ -60,4 +60,8 @@ interface IActivityTracker {
      */
     function isUserActiveWithin(address user, bytes32 activityType, uint256 timeWindow) external view returns (bool);
 
+    function getUserStats(address user, bytes32 activityType) 
+        external 
+        view 
+        returns (uint256 count, uint256 value, uint256 streak, uint256 lastTimestamp);
 }
