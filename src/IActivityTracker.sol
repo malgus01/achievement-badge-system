@@ -69,8 +69,8 @@ interface IActivityTracker {
      * @return streak Current streak
      * @return lastTimestamp Last activity timestamp
      */
-    function getUserStats(address user, bytes32 activityType) 
-        external 
-        view 
+    function getUserStats(address user, bytes32 activityType)
+        external
+        view
         returns (uint256 count, uint256 value, uint256 streak, uint256 lastTimestamp);
 }
