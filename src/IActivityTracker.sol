@@ -51,4 +51,6 @@ interface IActivityTracker {
      */
     function getLastActivityTimestamp(address user, bytes32 activityType) external view returns (uint256);
 
+    function isUserActiveWithin(address user, bytes32 activityType, uint256 timeWindow) external view returns (bool);
+
 }
