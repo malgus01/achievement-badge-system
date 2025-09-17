@@ -301,6 +301,11 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         emit AchievementUpdated(achievementId);
     }
 
+    /**
+     * @dev Update achievement thresholds
+     * @param achievementId Achievement ID
+     * @param newThresholds New threshold values
+     */
         function updateAchievementThresholds(uint256 achievementId, uint256[] memory newThresholds) external onlyOwner {
         achievements[achievementId].thresholds = newThresholds;
         emit AchievementUpdated(achievementId);
