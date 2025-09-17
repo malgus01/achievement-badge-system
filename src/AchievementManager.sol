@@ -291,6 +291,11 @@ contract AchievementManager is Ownable, ReentrancyGuard {
         return userProgress[user][achievementId];
     }
 
+    /**
+     * @dev Toggle achievement active status
+     * @param achievementId Achievement ID
+     * @param isActive New active status
+     */
         function setAchievementActive(uint256 achievementId, bool isActive) external onlyOwner {
         achievements[achievementId].isActive = isActive;
         emit AchievementUpdated(achievementId);
