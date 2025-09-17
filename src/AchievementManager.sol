@@ -280,4 +280,8 @@ contract AchievementManager is Ownable, ReentrancyGuard {
     function getAchievement(uint256 achievementId) external view returns (Achievement memory) {
         return achievements[achievementId];
     }
+
+        function getUserProgress(address user, uint256 achievementId) external view returns (uint256) {
+        return userProgress[user][achievementId];
+    }
 }
