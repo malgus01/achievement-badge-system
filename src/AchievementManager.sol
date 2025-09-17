@@ -280,4 +280,34 @@ contract AchievementManager is Ownable, ReentrancyGuard {
     function getAchievement(uint256 achievementId) external view returns (Achievement memory) {
         return achievements[achievementId];
     }
+
+    /**
+     * @dev Get user progress for an achievement
+     * @param user User address
+     * @param achievementId Achievement ID
+     * @return Current progress value
+     */
+    function getUserProgress(address user, uint256 achievementId) external view returns (uint256) {
+        return userProgress[user][achievementId];
+    }
+
+    /**
+     * @dev Toggle achievement active status
+     * @param achievementId Achievement ID
+     * @param isActive New active status
+     */
+    function setAchievementActive(uint256 achievementId, bool isActive) external onlyOwner {
+        achievements[achievementId].isActive = isActive;
+        emit AchievementUpdated(achievementId);
+    }
+
+    /**
+     * @dev Update achievement thresholds
+     * @param achievementId Achievement ID
+     * @param newThresholds New threshold values
+     */
+    function updateAchievementThresholds(uint256 achievementId, uint256[] memory newThresholds) external onlyOwner {
+        achievements[achievementId].thresholds = newThresholds;
+        emit AchievementUpdated(achievementId);
+    }
 }
