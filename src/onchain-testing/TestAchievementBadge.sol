@@ -25,7 +25,7 @@ contract TestAchievementBadge is ERC721, ERC721URIStorage {
     event BadgeMinted(address indexed to, uint256 indexed tokenId, uint256 indexed achievementId);
 
     constructor(string memory name, string memory symbol) ERC721(name, symbol) {
-        _tokenIds = 5;
+        _tokenIds = 7;
     }
 
     /// @notice Anyone can mint a badge (no restrictions)
