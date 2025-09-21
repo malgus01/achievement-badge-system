@@ -1,8 +1,18 @@
 'use client';
 import { useAccount } from 'wagmi';
 
+declare module 'react' {
+  namespace JSX {
+    interface IntrinsicElements {
+      'w3m-button': any;
+      'w3m-network-button': any;
+    }
+  }
+}
+
 export default function Home() {
   const { isConnected } = useAccount();
+
   return (
     <main className="min-h-screen px-8 py-0 pb-12 flex-1 flex flex-col items-center">
       <header className="w-full py-4 flex justify-between items-center">
@@ -11,20 +21,25 @@ export default function Home() {
           <div className="hidden sm:inline text-xl font-bold">Reown - AppKit EVM</div>
         </div>
       </header>
+
       <h2 className="my-8 text-2xl font-bold leading-snug text-center">Examples</h2>
       <div className="max-w-4xl">
+        {/* Wallet connect */}
         <div className="grid bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
           <h3 className="text-sm font-semibold bg-gray-100 p-2 text-center">Connect your Wallet</h3>
           <div className="flex justify-center items-center p-4">
-            <W3m-button />
+            <w3m-button></w3m-button>
           </div>
         </div>
-        <br></br>
+
+        <br />
+
+        {/* Show network selector only if connected */}
         {isConnected && (
           <div className="grid bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
             <h3 className="text-sm font-semibold bg-gray-100 p-2 text-center">Network selection button</h3>
             <div className="flex justify-center items-center p-4">
-              <W3m-network-button />
+              <w3m-network-button></w3m-network-button>
             </div>
           </div>
         )}
