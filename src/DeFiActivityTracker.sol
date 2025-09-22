@@ -12,6 +12,9 @@ import "./interface/IActivityTracker.sol";
  */
 contract DeFiActivityTracker is IActivityTracker, Ownable, ReentrancyGuard {
 
+    // Activity type constants
+    bytes32 public constant SWAP = keccak256("SWAP");
+    
     constructor(address initialOwner) Ownable(initialOwner) {}
 
 }
