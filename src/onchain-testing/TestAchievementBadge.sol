@@ -14,7 +14,7 @@ contract TestAchievementBadge is ERC721, ERC721URIStorage {
         string description;
         uint256 achievementId;
         uint256 earnedTimestamp;
-        uint8 rarity; // 1=Common, 2=Rare, 3=Epic, 4=Legendary, 5=Mythic, 6=Exclusive, 7=Unique, 8=Godlike
+        uint8 rarity; // 1=Common, 2=Rare, 3=Epic, 4=Legendary, 5=Mythic, 6=Exclusive, 7=Unique, 8=Godlike, 9=Immortal
         bool soulbound;
     }
 
@@ -25,7 +25,8 @@ contract TestAchievementBadge is ERC721, ERC721URIStorage {
     event BadgeMinted(address indexed to, uint256 indexed tokenId, uint256 indexed achievementId);
 
     constructor(string memory name, string memory symbol) ERC721(name, symbol) {
-        _tokenIds = 7;
+        _tokenIds = 0;
+        string memory info = "Test 4";
     }
 
     /// @notice Anyone can mint a badge (no restrictions)
@@ -38,7 +39,7 @@ contract TestAchievementBadge is ERC721, ERC721URIStorage {
         bool soulbound,
         string memory tokenURI_
     ) external returns (uint256) {
-        require(rarity >= 1 && rarity <= 8, "invalid rarity");
+        require(rarity >= 1 && rarity <= 9, "invalid rarity");
 
         _tokenIds++;
         uint256 tokenId = _tokenIds;
