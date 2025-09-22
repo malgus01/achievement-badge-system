@@ -16,6 +16,7 @@ contract DeFiActivityTracker is IActivityTracker, Ownable, ReentrancyGuard {
     bytes32 public constant SWAP = keccak256("SWAP");
     bytes32 public constant LIQUIDITY_ADD = keccak256("LIQUIDITY_ADD");
 bytes32 public constant LIQUIDITY_REMOVE = keccak256("LIQUIDITY_REMOVE");
+bytes32 public constant LENDING = keccak256("LENDING");
 
     constructor(address initialOwner) Ownable(initialOwner) {}
 
