@@ -11,5 +11,8 @@ import "./interface/IActivityTracker.sol";
  * @dev Tracks DeFi-related activities like swaps, liquidity provision, lending, etc.
  */
 contract DeFiActivityTracker is IActivityTracker, Ownable, ReentrancyGuard {
+
+    constructor(address initialOwner) Ownable(initialOwner) {}
+
 }
 
