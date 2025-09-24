@@ -26,7 +26,7 @@ contract TestAchievementBadge is ERC721, ERC721URIStorage {
 
     constructor(string memory name, string memory symbol) ERC721(name, symbol) {
         _tokenIds = 0;
-        string memory info = "Test 8";
+        string memory info = "Test 4";
     }
 
     /// @notice Anyone can mint a badge (no restrictions)
