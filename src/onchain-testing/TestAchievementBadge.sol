@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 /// @notice A test-only contract for experimenting with unrestricted badge minting and transfers
 contract TestAchievementBadge is ERC721, ERC721URIStorage {
     uint256 private _tokenIds;
+    string private info = "Version 0.0.4";
 
     struct BadgeMetadata {
         string name;
@@ -26,7 +27,6 @@ contract TestAchievementBadge is ERC721, ERC721URIStorage {
 
     constructor(string memory name, string memory symbol) ERC721(name, symbol) {
         _tokenIds = 0;
-        string memory info = "Test 4";
     }
 
     /// @notice Anyone can mint a badge (no restrictions)
