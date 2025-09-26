@@ -32,6 +32,6 @@ contract DeFiActivityTracker {
 
     // Nested mapping: user => activityType => UserActivity
     mapping(address => mapping(bytes32 => UserActivity)) private userActivities;
-    
+
     constructor() {}
 }
