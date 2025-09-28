@@ -106,7 +106,7 @@ function AnalyticsStatus() {
     if (typeof window !== 'undefined') {
       const checks = {
         projectIdSet: !!(window as any).reownProjectId,
-        domainConfigured: window.location.hostname === 'educational-sandbox.vercel.app' ||
+        domainConfigured: window.location.hostname === 'achievement-badge-system.vercel.app' ||
           window.location.hostname === 'localhost',
         appKitInstance: !!(window as any).appkit,
         analyticsEnabled: true // Assuming it's enabled in config
