@@ -9,7 +9,7 @@ if (!projectId) {
     throw new Error("NEXT_PUBLIC_PROJECT_ID is not defined");
 }
 
-export const networks = [mainnet, optimism, base];
+export const networks = [mainnet, base, optimism];
 
 export const wagmiAdapter = new WagmiAdapter({
     storage: createStorage({
